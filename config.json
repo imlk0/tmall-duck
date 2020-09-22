@@ -1,0 +1,15 @@
+{
+    "taobao": {
+        "username": "xxx",
+        "password": "xxx"
+    },
+    "baidu_tts": {
+        "api_key": "xxx",
+        "secret_key": "xxx"
+    },
+    "weixin": {
+        "agentid": "xxx",
+        "corpid": "xxx",
+        "secret": "xxx"
+    }
+}
