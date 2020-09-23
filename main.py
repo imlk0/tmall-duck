@@ -10,8 +10,9 @@ import os
 print("--------- 触发打卡 ---------")
 print("当前系统时间：{}".format(strftime('%Y-%m-%d %H:%M:%S', localtime())))
 
-config_private_file = './config_private.json'
-config_file = './config.json'
+project_dir = os.path.dirname(os.path.realpath(__file__))
+config_private_file = project_dir + '/config_private.json'
+config_file = project_dir + '/config.json'
 if os.path.exists(config_private_file):
     config = json.load(open(config_private_file, 'r'))
 else:
@@ -24,9 +25,6 @@ if tasks_info[3] is None:
 else:
     msg = notify.build_nitofy_msg(tasks_info)
     print(msg)
-
-notify.notify(config['weixin'], tasks_info)
-
 
 # 如果今天需要打卡
 if not tasks_info[0]:
