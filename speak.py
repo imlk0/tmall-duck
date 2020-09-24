@@ -13,7 +13,8 @@ hello_words = '天猫精灵'
 audio_file = '/tmp/duck_clock_in.mp3'
 
 
-def do_tasks(config, tasks):
+def do_tasks(config, tasks_info):
+    tasks = tasks_info[0]
     for task in tasks:
         if not task['finished']:
             text = re.match(r'对我说 “(.*)”', task['content']).group(1)
@@ -22,10 +23,9 @@ def do_tasks(config, tasks):
             time.sleep(1)
             speak(config, text)
             time.sleep(1)
-    if not tasks[0]:
-        speak(config, hello_words)
-        time.sleep(1)
-        speak(config, '闭嘴')
+    speak(config, hello_words)
+    time.sleep(1)
+    speak(config, '闭嘴')
 
 def speak(config, text: str):
     tss(config, text, audio_file)
