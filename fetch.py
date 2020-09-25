@@ -23,12 +23,13 @@ def fetch_tasks_info(config):
         time.sleep(1)
         try:
             ele_slider = driver.find_element_by_id('nc_1_n1z')
-            ele_slider_container = driver.find_element_by_id('nc_1_n1t')
-            ActionChains(driver).click_and_hold(
-                on_element=ele_slider).perform()
-            ActionChains(driver).move_by_offset(xoffset=(
-                ele_slider_container.size['width'] - ele_slider.size['width']), yoffset=0).perform()
-            ActionChains(driver).pause(0.5).release().perform()
+            if ele_slider is not None and ele_slider.is_displayed():
+                ele_slider_container = driver.find_element_by_id('nc_1_n1t')
+                ActionChains(driver).click_and_hold(
+                    on_element=ele_slider).perform()
+                ActionChains(driver).move_by_offset(xoffset=(
+                    ele_slider_container.size['width'] - ele_slider.size['width']), yoffset=0).perform()
+                ActionChains(driver).pause(0.5).release().perform()
         except NoSuchElementException:
             pass
 
