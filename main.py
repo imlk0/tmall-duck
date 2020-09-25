@@ -29,7 +29,7 @@ else:
 # 如果今天需要打卡
 if not tasks_info[0]:
     print("发送语言指令")
-    speak.do_tasks(config['baidu_tts'], tasks_info[3])
+    speak.do_tasks(config['baidu_tts'], tasks_info)
     print("重新检测任务状态")
 
     tasks_info = fetch.fetch_tasks_info(config['taobao'])

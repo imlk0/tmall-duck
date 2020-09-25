@@ -16,10 +16,10 @@ audio_file = '/tmp/duck_clock_in.mp3'
 
 
 def do_tasks(config, tasks_info):
-    tasks = tasks_info[0]
+    tasks = tasks_info[3]
     for task in tasks:
         if not task['finished']:
-            text = re.match(r'对我说 “(.*)”', task['content']).group(1)
+            text = re.match(r'对我说 *“(.*)”', task['content']).group(1)
             time.sleep(0.5)
             speak(config, hello_words)
             time.sleep(1)
