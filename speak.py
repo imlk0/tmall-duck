@@ -19,7 +19,10 @@ def do_tasks(config, tasks_info):
     tasks = tasks_info[3]
     for task in tasks:
         if not task['finished']:
-            text = re.match(r'对我说 *“(.*)”', task['content']).group(1)
+            gp = re.match(r'对我说 *["”“](.*)["”“]', task['content'])
+            if gp is None:
+                continue;
+            text = gp.group(1)
             time.sleep(0.5)
             speak(config, hello_words)
             time.sleep(1)
