@@ -42,7 +42,7 @@ def fetch_tasks_info(config):
             '#login-form > div.fm-btn > button')
         ele_submit.click()
 
-        time.sleep(2)
+        time.sleep(3)
 
         tasks = []
         ele_tasks = driver.find_element_by_xpath(
