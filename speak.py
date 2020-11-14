@@ -1,36 +1,14 @@
 # coding=utf-8
 
-import re
 import sys
 import json
 import base64
-import time
 import requests
 import os
-import time
 
 
-# 唤醒词
-hello_words = '天猫精灵'
 audio_file = '/tmp/duck_clock_in.mp3'
 
-
-def do_tasks(config, tasks_info):
-    tasks = tasks_info[3]
-    for task in tasks:
-        if not task['finished']:
-            gp = re.match(r'对我说 *["”“](.*)["”“]', task['content'])
-            if gp is None:
-                continue;
-            text = gp.group(1)
-            time.sleep(0.5)
-            speak(config, hello_words)
-            time.sleep(1)
-            speak(config, text)
-            time.sleep(1)
-    speak(config, hello_words)
-    time.sleep(1)
-    speak(config, '闭嘴')
 
 def speak(config, text: str):
     tss(config, text, audio_file)
@@ -63,7 +41,8 @@ def fetch_token(api_key, secret_key):
 
 
 def tss(config, text, path):
-    token = fetch_token(config['api_key'], config['secret_key'])
+    token = fetch_token(config['baidu_tts']['api_key'],
+                        config['baidu_tts']['secret_key'])
     params = {'tok': token, 'tex': text, 'per': PER, 'spd': SPD, 'pit': PIT,
               'vol': VOL, 'aue': AUE, 'cuid': CUID, 'lan': 'zh', 'ctp': 1}
     resp = requests.get('http://tsn.baidu.com/text2audio', params)

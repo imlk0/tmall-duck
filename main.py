@@ -1,3 +1,4 @@
+#!/bin/python
 # coding=utf-8
 
 from time import strftime, localtime
@@ -6,6 +7,7 @@ import fetch
 import notify
 import speak
 import os
+import worker
 
 print("--------- 触发打卡 ---------")
 print("当前系统时间：{}".format(strftime('%Y-%m-%d %H:%M:%S', localtime())))
@@ -18,27 +20,26 @@ if os.path.exists(config_private_file):
 else:
     config = json.load(open(config_file, 'r'))
 
-tasks_info = fetch.fetch_tasks_info(config['taobao'])
-# finished_all, days_of_checkin, schedule, tasks, ele_tasks.screenshot_as_png
-if tasks_info[3] is None:
-    print("获取任务信息失败")
-else:
-    msg = notify.build_nitofy_msg(tasks_info)
-    print(msg)
+tasks_info = fetch.fetch_tasks_info(config) # finished_all, days_of_checkin, schedule, tasks, ele_tasks.screenshot_as_png
+# 输出首次获取任务结果
+msg = notify.build_task_info_msg(tasks_info)
+print(msg)
 
-# 如果今天需要打卡
-if not tasks_info[0]:
-    print("发送语言指令")
-    speak.do_tasks(config['baidu_tts'], tasks_info)
+if tasks_info[0] is None:
+    # 获取失败
+    print("推送微信通知")
+    notify.notify_owner(config, tasks_info)
+elif not tasks_info[0]:
+    # 如果今天需要打卡
+    print("开始做任务")
+    worker.do_tasks(config, tasks_info)
     print("重新检测任务状态")
 
-    tasks_info = fetch.fetch_tasks_info(config['taobao'])
-    if tasks_info[3] is None:
-        print("获取任务信息失败")
-    else:
-        msg = notify.build_nitofy_msg(tasks_info)
-        print(msg)
+    tasks_info = fetch.fetch_tasks_info(config)
+    msg = notify.build_notify_msg(tasks_info)
+    print(msg)
+
     print("推送微信通知")
-    notify.notify(config['weixin'], tasks_info)
+    notify.notify_owner(config, tasks_info)
 
 print("--------- 打卡完毕 ---------")

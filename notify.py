@@ -5,28 +5,32 @@ import json
 from time import strftime, localtime
 
 
-def build_nitofy_msg(tasks_info):
-    res = ''
-    res += tasks_info[1]
-    res += '\n'
-    res += tasks_info[2]
-    for task in tasks_info[3]:
+def build_task_info_msg(tasks_info):
+    if tasks_info[0] is not None:
+        res = ''
+        res += tasks_info[1]
         res += '\n'
-        res += ('[{}] {}'.format('已完成' if task['finished']
-                                 else '未完成', task['content']))
-    if tasks_info[0]:
-        res += '\n'
-        res += '今日任务已完成'
-    return res
+        res += tasks_info[2]
+        for task in tasks_info[3]:
+            res += '\n'
+            res += ('[{}] {}'.format('已完成' if task['finished']
+                                     else '未完成', task['content']))
+        if tasks_info[0]:
+            res += '\n'
+            res += '今日任务已完成'
+        return res
+    else:
+        return "获取任务信息失败"
 
 
-def notify(config, tasks_info):
-    access_token = get_access_token(config['corpid'], config['secret'])
+def notify_owner(config, tasks_info):
+    access_token = get_access_token(
+        config['weixin']['corpid'], config['weixin']['secret'])
     if tasks_info[0] is None:
         content = {
             "touser": "@all",
             "msgtype": "text",
-            "agentid": int(config['agentid']),
+            "agentid": int(config['weixin']['agentid']),
             "text": {
                 "content": "获取今日打卡信息失败\n时间：{}".format(strftime('%Y-%m-%d %H:%M:%S', localtime()))
             }
@@ -34,11 +38,11 @@ def notify(config, tasks_info):
 
     else:
         # pic_url = upload_pic(access_token, tasks_info[4])
-        msg = build_nitofy_msg(tasks_info)
+        msg = build_task_info_msg(tasks_info)
         content = {
             "touser": "@all",
             "msgtype": "text",
-            "agentid": int(config['agentid']),
+            "agentid": int(config['weixin']['agentid']),
             "text": {
                 "content": "天猫精灵打卡结束[{}]\n时间：{}\n{}".format('已完成' if tasks_info[0] else '未完成',
                                                             strftime(
@@ -58,7 +62,7 @@ def notify(config, tasks_info):
         content = {
             "touser": "@all",
             "msgtype": "image",
-            "agentid": int(config['agentid']),
+            "agentid": int(config['weixin']['agentid']),
             "image": {
                 "media_id": media_id
             }

@@ -6,15 +6,18 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 import time
 
+game_url_map = {
+    "tm_ft2": "https://market.m.taobao.com/app/forest/assets/comeon.html?gameId=1", # 天猫精灵方糖2
+    "tm_it2": "https://market.m.taobao.com/app/forest/assets/comeon.html?gameId=14", # 天猫精灵in糖2
+}
 
 def fetch_tasks_info(config):
-    username, password = config['username'], config['password']
+    username, password = config['taobao']['username'], config['taobao']['password']
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     with webdriver.Chrome(options=chrome_options) as driver:
         driver.set_window_size(1440, 3040)
-        driver.get(
-            'https://market.m.taobao.com/app/forest/assets/comeon.html?gameId=1')
+        driver.get(game_url_map[config['taobao']['device_type']])
         time.sleep(0.5)
         driver.switch_to.frame(0)
         driver.find_element_by_id('fm-login-id').send_keys(username)
