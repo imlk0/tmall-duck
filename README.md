@@ -19,6 +19,11 @@
 
 ## configuration
 使用前先修改配置文件中的内容`config.json`
+- 支持的设备
+    `device_type`取值和含义如下：
+    - `tm_ft2`天猫精灵方糖2
+
+    - `tm_it2`天猫精灵in糖2
 
 - 百度TTS
     需要使用到百度文字转语音api，有免费额度，领取基础音库的免费额度就可以了。注册一个应用并获取到`api_key`和`secret_key`。
