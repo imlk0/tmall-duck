@@ -1,3 +1,5 @@
 config_private.json
 __pycache__
 *.pyc
+.vscode
+conf
