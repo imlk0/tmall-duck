@@ -39,7 +39,7 @@ elif not tasks_info[0]:
     print("重新检测任务状态")
 
     tasks_info = fetch.fetch_tasks_info(config)
-    msg = notify.build_notify_msg(tasks_info)
+    msg = notify.build_task_info_msg(tasks_info)
     print(msg)
 
     print("推送微信通知")
