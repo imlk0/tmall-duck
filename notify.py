@@ -29,8 +29,8 @@ def notify_owner(config, tasks_info):
             strftime('%Y-%m-%d %H:%M:%S', localtime())))
     else:
         msg = build_task_info_msg(tasks_info)
-        notify_text_msg(config, "天猫精灵打卡结束[{}]\n时间：{}\n{}".format(
-            '已完成' if tasks_info[0] else '未完成', strftime('%Y-%m-%d %H:%M:%S', localtime()), msg))
+        notify_text_msg(config, "{} 打卡结束[{}]\n时间：{}\n{}".format(config['taobao']['device_name'],
+                                                                '已完成' if tasks_info[0] else '未完成', strftime('%Y-%m-%d %H:%M:%S', localtime()), msg))
     if tasks_info[4] is not None:
         notify_picture_msg(config, tasks_info[4])
 
