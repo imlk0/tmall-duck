@@ -26,11 +26,11 @@ def try_all_day_speak_task(config, task):
     if gp is None:
         return False
     text = gp.group(1)
-    time.sleep(0.5)
+    time.sleep(2)
     speak.speak(config, hello_words)
-    time.sleep(1)
+    time.sleep(2)
     speak.speak(config, text)
-    time.sleep(1)
+    time.sleep(2)
     return True
 
 
@@ -45,11 +45,11 @@ def try_time_range_speak_task(config, task):
     end_time = gp.group(2)
     if time_cur.hour >= int(start_time.split(':')[0]) and time_cur.minute > int(start_time.split(':')[1]) and time_cur.hour <= int(end_time.split(':')[0]) and time_cur.minute < int(end_time.split(':')[1]):
         text = gp.group(3)
-        time.sleep(0.5)
+        time.sleep(2)
         speak.speak(config, hello_words)
-        time.sleep(1)
+        time.sleep(2)
         speak.speak(config, text)
-        time.sleep(1)
+        time.sleep(2)
     else:
         print("不在时间范围内，当前时间为：{}:{} 任务时间为：{}-{}", time_cur.hour,
               time_cur.minute, start_time, end_time)
