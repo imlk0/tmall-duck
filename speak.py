@@ -11,6 +11,7 @@ audio_file = '/tmp/duck_clock_in.mp3'
 
 
 def speak(config, text: str):
+    print('speak -> {}'.format(text))
     tss(config, text, audio_file)
     # 调用外部命令播放tts生成的mp3文件
     os.system('mpg123 {}'.format(audio_file))

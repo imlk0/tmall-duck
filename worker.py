@@ -36,14 +36,14 @@ def try_all_day_speak_task(config, task):
 
 def try_time_range_speak_task(config, task):
     gp = re.match(
-        r'在([0-9]{2}:[0-9]{2})-([0-9]{2}:[0-9]{2})点对我说 *["”“](.*)["”“]', task['content'])
+        r'.*在([0-9]{2}:[0-9]{2})-([0-9]{2}:[0-9]{2}).*说 *["”“](.*)["”“]', task['content'])
     if gp is None:
         return False
 
     time_cur = datetime.now()
     start_time = gp.group(1)
     end_time = gp.group(2)
-    if time_cur.hour >= int(start_time.split(':')[0]) and time_cur.minute > int(start_time.split(':')[1]) and time_cur.hour <= int(end_time.split(':')[0]) and time_cur.minute < int(end_time.split(':')[1]):
+    if (time_cur.hour > int(start_time.split(':')[0]) or (time_cur.hour == int(start_time.split(':')[0]) and time_cur.minute > int(start_time.split(':')[1]))) and (time_cur.hour < int(end_time.split(':')[0]) or (time_cur.hour == int(end_time.split(':')[0]) and time_cur.minute < int(end_time.split(':')[1]))):
         text = gp.group(3)
         time.sleep(2)
         speak.speak(config, hello_words)
@@ -51,8 +51,7 @@ def try_time_range_speak_task(config, task):
         speak.speak(config, text)
         time.sleep(2)
     else:
-        print("不在时间范围内，当前时间为：{}:{} 任务时间为：{}-{}", time_cur.hour,
-              time_cur.minute, start_time, end_time)
+        print("不在时间范围内，当前时间为：{}:{} 任务时间为：{}-{}".format(time_cur.hour, time_cur.minute, start_time, end_time))
     return True
 
 
